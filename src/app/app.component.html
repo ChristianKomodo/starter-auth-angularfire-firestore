@@ -1,21 +1,3 @@
-<p>
-    <a routerLink="/secret">Route-Guarded Secret</a>
-</p>
-
-<div *ngIf="auth.user$ | async as user; else login">
-  <pre>
-    {{ user | json }}
-  </pre>
-  
-  <hr>
-  <button class="button" (click)="auth.signOut()">Sign Out</button>
-
-</div>
-
-<ng-template #login>
-  <button class="button" (click)="auth.signIn()">Login with Google</button>
-</ng-template>
-
 <div class="container">
   <app-nav></app-nav>
   <h1>Website with Blog</h1>
