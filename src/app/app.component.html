@@ -1,0 +1,32 @@
+<p>
+    <a routerLink="/secret">Route-Guarded Secret</a>
+</p>
+
+<div *ngIf="auth.user$ | async as user; else login">
+  <pre>
+    {{ user | json }}
+  </pre>
+  
+  <hr>
+  <button class="button" (click)="auth.signOut()">Sign Out</button>
+
+</div>
+
+<ng-template #login>
+  <button class="button" (click)="auth.signIn()">Login with Google</button>
+</ng-template>
+
+<div class="container">
+  <app-nav></app-nav>
+  <h1>Website with Blog</h1>
+  <h3>Here are some blog posts for your viewing pleasure</h3>
+  <hr />
+  <div class="row">
+    <div class="col-8">
+      <router-outlet></router-outlet>
+    </div>
+    <div class="col-4">
+      Right Column
+    </div>
+  </div>
+</div>
