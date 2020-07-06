@@ -4,7 +4,7 @@
   <ng-container *ngIf="auth.user$ | async; then logOutButton; else logInLink"></ng-container>
 
   <ng-template #logOutButton>
-    <a class="nav-link ml-auto" (click)="auth.signOut()" routerLink="/login">Log Out</a
+    <a class="nav-link ml-auto text-primary" (click)="auth.signOut()" style="cursor:pointer;">Log Out</a
   >
   </ng-template>
   <ng-template #logInLink>
