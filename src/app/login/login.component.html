@@ -1,30 +1,56 @@
 <h2>Log In!</h2>
 
-<div *ngIf="auth.user$ | async; then authenticated else guest">
-    <!-- template will replace this div -->
+<div *ngIf="auth.user$ | async; then authenticated; else guest">
+	<!-- template will replace this div -->
 </div>
 
 <!-- User NOT logged in -->
 <ng-template #guest>
-    <h3>Howdy, GUEST</h3>
-    <p>Login to get started...</p>
+	<h3>Howdy, GUEST</h3>
+	<p>Login to get started...</p>
 
-    <button class="button" (click)="auth.signIn()">Auto Sign-In</button>
+	<div class="form-group">
+		<input
+			type="text"
+			class="form-control"
+			placeholder="Email"
+			value="geekfabulous@gmail.com"
+			#userEmail
+			required
+			autofocus
+		/>
+		<br />
+		<input
+			type="password"
+			class="form-control"
+			placeholder="Password1234"
+			value="Password1234"
+			#userPassword
+			required
+		/>
+		<br />
+		<!-- <div class="error" *ngIf="errorMessage" [innerHTML]="errorMessage"></div> -->
+		<button
+			class="btn btn-primary"
+			(click)="auth.signIn(userEmail.value, userPassword.value)"
+		>
+			Login
+		</button>
+	</div>
 </ng-template>
-
 
 <!-- User logged in -->
 <ng-template #authenticated>
-    <div *ngIf="auth.user$ | async as user">
-        <h3>Howdy, {{ user.displayName }}</h3>
-        <img  [src]="user.photoURL">
-        <p>UID: {{ user.uid }}</p>
-        <button (click)="auth.signOut()">Logout</button>
-    </div>
+	<div *ngIf="auth.user$ | async as user">
+		<h3>Howdy, {{ user.displayName }}</h3>
+		<img [src]="user.photoURL" />
+		<p>UID: {{ user.uid }}</p>
+		<button (click)="auth.signOut()">Logout</button>
+	</div>
 </ng-template>
 
 <p>
-    <a routerLink="/secret">Route-Guarded Secret</a>
+	<a routerLink="/secret">Route-Guarded Secret (testing auth guard)</a>
 </p>
 
 <!-- 
