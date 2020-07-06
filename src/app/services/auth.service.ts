@@ -33,11 +33,8 @@ export class AuthService {
     );
   }
 
-  async signIn() {
-    const credential = await this.afAuth.signInWithEmailAndPassword(
-      'geekfabulous@gmail.com',
-      'Password1234'
-    );
+  async signIn(username, password) {
+    const credential = await this.afAuth.signInWithEmailAndPassword(username, password);
     return this.updateUserData(credential.user);
   }
 

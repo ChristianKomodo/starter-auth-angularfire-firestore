@@ -1,7 +1,15 @@
 <nav class="nav d-flex mb-3">
   <a class="nav-link" routerLink="/home" routerLinkActive="active">Home</a>
   <a class="nav-link" routerLink="/blog" routerLinkActive="active">Blog</a>
-  <a class="nav-link ml-auto" routerLink="/login" routerLinkActive="active"
+  <ng-container *ngIf="auth.user$ | async; then logOutButton; else logInLink"></ng-container>
+
+  <ng-template #logOutButton>
+    <a class="nav-link ml-auto" (click)="auth.signOut()" routerLink="/login">Log Out</a
+  >
+  </ng-template>
+  <ng-template #logInLink>
+    <a class="nav-link ml-auto" routerLink="/login" routerLinkActive="active"
     >Login</a
   >
+  </ng-template>
 </nav>
