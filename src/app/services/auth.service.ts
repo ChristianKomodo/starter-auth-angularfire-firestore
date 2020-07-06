@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { auth } from 'firebase/app';
+// import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
 import {
   AngularFirestore,
-  AngularFirestoreDocument
+  AngularFirestoreDocument,
 } from '@angular/fire/firestore';
 
 import { Observable, of } from 'rxjs';
@@ -23,7 +23,7 @@ export class AuthService {
     private router: Router
   ) {
     this.user$ = this.afAuth.authState.pipe(
-      switchMap(user => {
+      switchMap((user) => {
         if (user) {
           return this.afs.doc<User>(`users/${user.uid}`).valueChanges();
         } else {
@@ -33,10 +33,11 @@ export class AuthService {
     );
   }
 
-
   async signIn() {
-    console.log('signIn');
-    const credential = await this.afAuth.signInWithEmailAndPassword('geekfabulous@gmail.com', 'Password1234');
+    const credential = await this.afAuth.signInWithEmailAndPassword(
+      'geekfabulous@gmail.com',
+      'Password1234'
+    );
     return this.updateUserData(credential.user);
   }
 
@@ -47,18 +48,22 @@ export class AuthService {
 
   private updateUserData(user) {
     // Sets user data to firestore on login
-    const userRef: AngularFirestoreDocument<User> = this.afs.doc(`users/${user.uid}`);
+    const userRef: AngularFirestoreDocument<User> = this.afs.doc(
+      `users/${user.uid}`
+    );
 
-    const data = {
+    const data: User = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
-      photoURL: user.photoURL
+      displayName: user.displayName
     };
 
+    if (!user.photoURL) {
+      data.photoURL = 'https://fpoimg.com/175x125?text=No%20User%20Image';
+    } else {
+      data.photoURL = user.photoURL;
+    }
+
     return userRef.set(data, { merge: true });
-
   }
-
 }
-
